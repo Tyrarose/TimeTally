@@ -8,7 +8,6 @@ const TimeEntryGroup = ({ id, start, end, onStartChange, onEndChange, onRemove }
       sx={{
         mb: 2,
         border: "1px solid",
-        borderColor: "black", 
         borderRadius: 3, 
         margin: "30px 0",
         padding: "30px",

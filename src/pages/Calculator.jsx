@@ -1,41 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Grid, Typography, Box, ThemeProvider, createTheme, Switch, FormControlLabel } from "@mui/material";
-import { WbSunny, NightlightRound } from "@mui/icons-material"; 
-
+import { 
+  Button, 
+  Container, 
+  Grid, 
+  Typography, 
+  Box, 
+  ThemeProvider, 
+  createTheme, 
+  Switch, 
+  FormControlLabel,
+  CssBaseline
+} from "@mui/material";
+import { WbSunny, NightlightRound } from "@mui/icons-material";
 import TimeEntryGroup from "../components/TimeEntryGroup";
 import TotalTimeDisplay from "../components/TotalTimeDisplay";
 
 const Calculator = () => {
   const [entries, setEntries] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const theme = createTheme({
     palette: {
-      mode: isDarkMode ? 'dark' : 'light', 
-      primary: {
-        main: '#1976d2',
-      },
-      secondary: {
-        main: '#d32f2f',
-      },
+      mode: isDarkMode ? 'dark' : 'light',
       background: {
-        default: isDarkMode ? '#121212' : '#f5f5f5', 
+        default: isDarkMode ? '#42464E' : '#D6C4A0', 
+        paper: isDarkMode ? '#D6C4A0' : '#42464E', 
       },
       text: {
-        primary: isDarkMode ? '#ffffff' : '#213547', 
+        primary: isDarkMode ? '#d0d6f2' : '#4a4a4a', 
+        secondary: isDarkMode ? '#a0a0a0' : '#666666', 
       },
+      primary: {
+        main: isDarkMode ? '#281964' : '#E3B35A', 
+      }
     },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: isDarkMode ? '#42464E' : '#D6C4A0',
+            color: isDarkMode ? '#d0d6f2' : '#4a4a4a',
+          }
+        }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundColor: isDarkMode ? '#2b3a6b' : '#f3f1d7',
+          }
+        }
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            backgroundColor: isDarkMode ? '#2d3b6e' : '#fff8e1', 
+          }
+        }
+      }
+    }
   });
 
   useEffect(() => {
-    const root = document.documentElement;
-    const body = document.body;
-    
-    root.style.backgroundColor = isDarkMode ? '#121212' : '#f5f5f5';
-    root.style.color = isDarkMode ? '#ffffff' : '#213547';
-    body.style.backgroundColor = isDarkMode ? '#121212' : '#f5f5f5'; // Global background change
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
-  
 
   const handleThemeChange = (event) => {
     setIsDarkMode(event.target.checked);
@@ -59,18 +86,18 @@ const Calculator = () => {
 
   const calculateTotalTime = () => {
     let totalMinutes = 0;
-
     entries.forEach(({ start, end }) => {
       if (start && end) {
-        const [startH, startM] = start.split(":").map(Number);
-        const [endH, endM] = end.split(":").map(Number);
+        const startTime = typeof start === 'string' ? start : start.format('HH:mm');
+        const endTime = typeof end === 'string' ? end : end.format('HH:mm');
+        const [startH, startM] = startTime.split(':').map(Number);
+        const [endH, endM] = endTime.split(':').map(Number);
         totalMinutes += (endH * 60 + endM) - (startH * 60 + startM);
       }
     });
-
     return {
-      totalHours: Math.floor(totalMinutes / 60),
-      totalMinutes: totalMinutes % 60,
+      totalHours: Math.floor(Math.max(0, totalMinutes) / 60),
+      totalMinutes: Math.max(0, totalMinutes) % 60,
     };
   };
 
@@ -78,34 +105,39 @@ const Calculator = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container sx={{ 
-        py: 4
-        }}>
-        {}
-        <Box sx={{
-          position: 'absolute',
-          top: 16,
-          right: 16,
-        }}>
+      <CssBaseline />
+      <Container
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          justifyContent: "center", 
+          alignItems: "center", 
+          flexDirection: "column", 
+          minHeight: "100vh", // Full height of the viewport
+          py: 4,
+        }}
+      >
+        {/* Dark/Light mode switch */}
+        <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <FormControlLabel
             control={
               <Switch
                 checked={isDarkMode}
                 onChange={handleThemeChange}
-                icon={<WbSunny sx={{ color: 'yellow' }} />}
-                checkedIcon={<NightlightRound sx={{ color: '#3f51b5' }} />}
-                color="default"
+                icon={<WbSunny sx={{ color: theme.palette.mode === 'dark' ? '#666' : '#ffd700' }} />}
+                checkedIcon={<NightlightRound sx={{ color: '#fff' }} />}
               />
             }
             label={isDarkMode ? "Dark Mode" : "Light Mode"}
-            sx={{
-              color: isDarkMode ? 'text.primary' : 'text.secondary',
-            }}
           />
         </Box>
 
-        <Typography variant="h4" align="center" sx={{ color: 'text.primary' }}>
-          Time Calculator
+        <Typography 
+          variant="h4" 
+          align="center" 
+          sx={{ mb: 4, color: 'text.primary' }}
+        >
+          Time Tally
         </Typography>
 
         <Box sx={{ mb: 4 }}>
@@ -118,24 +150,36 @@ const Calculator = () => {
               onStartChange={(value) => handleTimeChange(id, "start", value)}
               onEndChange={(value) => handleTimeChange(id, "end", value)}
               onRemove={handleRemoveEntry}
+              isDarkMode={isDarkMode}
             />
           ))}
         </Box>
+
         <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleAddEntry}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={handleAddEntry}
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.dark,
+                }
+              }}
+            >
               Add Entry
             </Button>
           </Grid>
         </Grid>
+
         <Grid container justifyContent="center">
           <Grid item>
-          <TotalTimeDisplay 
-            totalHours={totalHours} 
-            totalMinutes={totalMinutes} 
-            isDarkMode={isDarkMode} 
-          />
-
+            <TotalTimeDisplay 
+              totalHours={totalHours} 
+              totalMinutes={totalMinutes}
+              isDarkMode={isDarkMode}
+            />
           </Grid>
         </Grid>
       </Container>
