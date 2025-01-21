@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, Container, Grid, Box, ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import dayjs from "dayjs";
 import TimeEntryGroup from "../components/TimeEntryGroup";
-import TotalTimeDisplay from "../components/TotalTimeDisplay";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Calculator = ({ isDarkMode, updateTotalTime }) => {
   const [entries, setEntries] = useState([]);
@@ -122,7 +123,7 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
 
         <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleAddEntry}>
+            <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddEntry}>
               Add Entry
             </Button>
           </Grid>
@@ -131,20 +132,11 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
               variant="contained"
               color="error"
               onClick={handleRemoveAllEntries}
+              startIcon={<DeleteIcon />}
               disabled={entries.length === 0}
             >
               Remove All
             </Button>
-          </Grid>
-        </Grid>
-
-        <Grid container justifyContent="center">
-          <Grid item>
-            <TotalTimeDisplay
-              totalHours={totalHours}
-              totalMinutes={totalMinutes}
-              isDarkMode={isDarkMode}
-            />
           </Grid>
         </Grid>
       </Container>

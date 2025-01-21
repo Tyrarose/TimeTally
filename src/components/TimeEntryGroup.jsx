@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Button, Box } from "@mui/material";
 import TimeSelection from "./TimeSelection";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const TimeEntryGroup = ({ id, start, end, onStartChange, onEndChange, onRemove, isDarkMode }) => {
   return (
@@ -30,7 +31,7 @@ const TimeEntryGroup = ({ id, start, end, onStartChange, onEndChange, onRemove, 
           />
         </Grid>
         <Grid item xs={12} sm={2}>
-          <Button variant="outlined" color="error" onClick={() => onRemove(id)} fullWidth>
+          <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={() => onRemove(id)} fullWidth>
             Remove
           </Button>
         </Grid>

@@ -37,7 +37,7 @@ const Header = ({ isDarkMode, handleThemeChange, totalHours, totalMinutes }) => 
             />
           }
           label={isMobile ? '' : isDarkMode ? 'Dark Mode' : 'Light Mode'}
-          sx={{ color: 'text.primary' }}
+          sx={{ color: isDarkMode ? '#ffffff' : '#213547' }}
         />
       </Toolbar>
     </AppBar>
