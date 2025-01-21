@@ -2,15 +2,16 @@ import React from "react";
 import { Grid, Button, Box } from "@mui/material";
 import TimeSelection from "./TimeSelection";
 
-const TimeEntryGroup = ({ id, start, end, onStartChange, onEndChange, onRemove }) => {
+const TimeEntryGroup = ({ id, start, end, onStartChange, onEndChange, onRemove, isDarkMode }) => {
   return (
     <Box
       sx={{
         mb: 2,
         border: "1px solid",
-        borderRadius: 3, 
+        borderRadius: 3,
         margin: "30px 0",
         padding: "30px",
+        boxShadow: 3,
       }}
     >
       <Grid container spacing={2} alignItems="center">
