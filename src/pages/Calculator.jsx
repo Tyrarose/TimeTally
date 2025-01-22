@@ -51,7 +51,7 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
   };
 
   const handleRemoveAllEntries = () => {
-    setEntries([]); // Clear all entries
+    setEntries([]); 
   };
 
   const handleTimeChange = (id, field, value) => {
@@ -84,14 +84,13 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
       totalDecimal,
     };
   };
-  
+
   useEffect(() => {
     const { totalHours, totalMinutes, totalDecimal } = calculateTotalTime();
     updateTotalTime(totalHours, totalMinutes, totalDecimal);
   }, [entries, updateTotalTime]);
-  
+
   const { totalHours, totalMinutes, totalDecimal } = calculateTotalTime();
-  
 
   return (
     <ThemeProvider theme={theme}>
@@ -124,7 +123,6 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
             </div>
           ))}
         </Box>
-        
 
         <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
           <Grid item>
@@ -144,7 +142,7 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
             </Button>
           </Grid>
         </Grid>
-        {/* Total Time Display */}
+        {}
         <Grid container justifyContent="center" sx={{ mb: 4 }}>
           <Grid item>
             <TotalTimeDisplay 

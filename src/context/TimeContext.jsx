@@ -25,7 +25,7 @@ const timeReducer = (state, action) => {
 export const TimeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(timeReducer, {
     groups: [],
-    format: "24", // Default format
+    format: "24", 
   });
 
   return (

@@ -24,18 +24,18 @@ const Header = ({ isDarkMode, handleThemeChange, totalHours, totalMinutes, total
           TimeTally
         </Typography>
 
-        {/* Time Display */}
+        {}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <TotalTimeDisplay
             totalHours={totalHours}
             totalMinutes={totalMinutes}
             totalDecimal={totalDecimal}
             isDarkMode={isDarkMode}
-            isMobile={isMobile} // Pass `isMobile` to TotalTimeDisplay
+            isMobile={isMobile} 
           />
         </Box>
 
-        {/* Light/Dark Mode Switch */}
+        {}
         <FormControlLabel
           control={
             <Switch

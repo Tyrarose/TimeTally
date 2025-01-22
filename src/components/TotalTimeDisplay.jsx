@@ -5,9 +5,9 @@ const TotalTimeDisplay = ({ totalHours, totalMinutes, totalDecimal, isDarkMode, 
   <Box
     sx={{
       display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row', // Stack vertically on mobile, side by side on larger screens
-      justifyContent: 'center', // Centers the content horizontally
-      textAlign: 'center', // Centers the text horizontally
+      flexDirection: isMobile ? 'column' : 'row', 
+      justifyContent: 'center', 
+      textAlign: 'center', 
     }}
   >
     <Typography
