@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, Container, Grid, Box, ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import dayjs from "dayjs";
 import TimeEntryGroup from "../components/TimeEntryGroup";
+import TotalTimeDisplay from "../components/TotalTimeDisplay";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -76,18 +77,21 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
         totalMinutes += diffMinutes;
       }
     });
+    const totalDecimal = (Math.max(0, totalMinutes) / 60).toFixed(2);
     return {
       totalHours: Math.floor(Math.max(0, totalMinutes) / 60),
       totalMinutes: Math.max(0, totalMinutes) % 60,
+      totalDecimal,
     };
   };
-
+  
   useEffect(() => {
-    const { totalHours, totalMinutes } = calculateTotalTime();
-    updateTotalTime(totalHours, totalMinutes);
+    const { totalHours, totalMinutes, totalDecimal } = calculateTotalTime();
+    updateTotalTime(totalHours, totalMinutes, totalDecimal);
   }, [entries, updateTotalTime]);
-
-  const { totalHours, totalMinutes } = calculateTotalTime();
+  
+  const { totalHours, totalMinutes, totalDecimal } = calculateTotalTime();
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,6 +124,7 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
             </div>
           ))}
         </Box>
+        
 
         <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
           <Grid item>
@@ -137,6 +142,17 @@ const Calculator = ({ isDarkMode, updateTotalTime }) => {
             >
               Remove All
             </Button>
+          </Grid>
+        </Grid>
+        {/* Total Time Display */}
+        <Grid container justifyContent="center" sx={{ mb: 4 }}>
+          <Grid item>
+            <TotalTimeDisplay 
+              totalHours={totalHours} 
+              totalMinutes={totalMinutes} 
+              totalDecimal={totalDecimal}
+              isDarkMode={isDarkMode}
+            />
           </Grid>
         </Grid>
       </Container>

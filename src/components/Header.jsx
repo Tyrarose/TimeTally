@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Box, FormControlLabel, Switch, useMediaQue
 import { WbSunny, NightlightRound } from '@mui/icons-material';
 import TotalTimeDisplay from './TotalTimeDisplay';
 
-const Header = ({ isDarkMode, handleThemeChange, totalHours, totalMinutes }) => {
+const Header = ({ isDarkMode, handleThemeChange, totalHours, totalMinutes, totalDecimal }) => {
   const isMobile = useMediaQuery('(max-width:600px)');
 
   return (
@@ -17,15 +17,24 @@ const Header = ({ isDarkMode, handleThemeChange, totalHours, totalMinutes }) => 
       }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6"  sx={{ color: isDarkMode ? '#ffffff' : '#213547' }}>
-          Time Tally
+        <Typography
+          variant={isMobile ? 'subtitle2' : 'h5'}
+          sx={{ color: isDarkMode ? '#ffffff' : '#213547' }}
+        >
+          TimeTally
         </Typography>
-        
+
         {/* Time Display */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <TotalTimeDisplay totalHours={totalHours} totalMinutes={totalMinutes} isDarkMode={isDarkMode} />
+          <TotalTimeDisplay
+            totalHours={totalHours}
+            totalMinutes={totalMinutes}
+            totalDecimal={totalDecimal}
+            isDarkMode={isDarkMode}
+            isMobile={isMobile} // Pass `isMobile` to TotalTimeDisplay
+          />
         </Box>
-        
+
         {/* Light/Dark Mode Switch */}
         <FormControlLabel
           control={
